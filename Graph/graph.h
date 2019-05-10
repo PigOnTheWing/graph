@@ -10,7 +10,10 @@ template <class T> class graph
 	int next_id = 0;
 	std::vector<node<T>*> nodes;
 	node<T>** breadth_list = new node<T>*[100];
+	int dfs_length = 0;
+
 	node<T>** depth_list = new node<T>*[100];
+	int bfs_length = 0;
 
 	void clear_visited()
 	{
@@ -22,12 +25,16 @@ template <class T> class graph
     {
 	    for (int i = 0; i < 100; i++)
 	        this->breadth_list[i] = 0;
+
+	    this->bfs_length = 0;
     }
 
     void clear_depth()
     {
         for (int i = 0; i < 100; i++)
             this->depth_list[i] = 0;
+
+        this->dfs_length = 0;
     }
 
 	int dfs_rec(node<T>* n, int i)
@@ -67,7 +74,7 @@ public:
 		this->nodes[_from]->add_connection(e);
 	}
 
-	void bfs(int _from)
+	int bfs(int _from)
 	{
 	    int i = 0;
 	    this->clear_visited();
@@ -94,13 +101,14 @@ public:
 	            }
             }
         }
+	    return i;
 	}
 
-	void dfs(int _from)
+	int dfs(int _from)
 	{
 	    this->clear_visited();
 	    this->clear_depth();
-        this->dfs_rec(this->nodes[_from], 0);
+        return this->dfs_rec(this->nodes[_from], 0);
 	}
 
 	void print()
@@ -172,24 +180,24 @@ public:
 
 	iterator breadth_begin(int _from)
 	{
-	    this->bfs(_from);
-        return iterator(this->breadth_list, this->next_id, true);
+	    this->bfs_length = this->bfs(_from);
+        return iterator(this->breadth_list, this->bfs_length, true);
 	}
 
 	iterator breadth_end(int _from)
     {
-	    return iterator(this->breadth_list, this->next_id, false);
+	    return iterator(this->breadth_list, this->bfs_length, false);
     }
 
     iterator depth_begin(int _from)
     {
-	    this->dfs(_from);
-        return iterator(this->depth_list, this->next_id, true);
+	    this->dfs_length = this->dfs(_from);
+        return iterator(this->depth_list, this->dfs_length, true);
     }
 
     iterator depth_end(int _from)
     {
-        return iterator(this->depth_list, this->next_id, false);
+        return iterator(this->depth_list, this->dfs_length, false);
     }
 };
 

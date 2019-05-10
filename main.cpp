@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Graph/graph.h"
 
 int main() {
@@ -36,14 +35,14 @@ int main() {
 
     std::cout<<"Breadth"<<std::endl;
 
-    for (graph<char>::iterator it = g->breadth_begin(0); it != g->breadth_end(0); ++it)
+    for (graph<char>::iterator it = g->breadth_begin(1); it != g->breadth_end(1); ++it)
     {
         std::cout << (*it)->get_data() << std::endl;
     }
 
     std::cout<<"Depth"<<std::endl;
 
-    for (graph<char>::iterator it = g->depth_begin(0); it != g->depth_end(0); ++it)
+    for (graph<char>::iterator it = g->depth_begin(1); it != g->depth_end(1); ++it)
     {
         std::cout << (*it)->get_data() << std::endl;
     }
